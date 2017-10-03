@@ -88,9 +88,6 @@ public class ImageViewerController {
 	
 	@FXML
 	private void handleAction(ActionEvent event) {
-		//Node source = (Node) event.getSource(); 
-	    //currentstage  = (Stage) source.getScene().getWindow();
-	    
 		if (event.getSource().equals(previousButton)) {
 			if (SQLUtil.results != null) {
 				try {
@@ -227,6 +224,11 @@ public class ImageViewerController {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}	
+		} else {
+			firstButton.setDisable(true);
+			previousButton.setDisable(true);
+			lastButton.setDisable(true);
+			nextButton.setDisable(true);
 		}
 	}
 	
@@ -267,19 +269,15 @@ public class ImageViewerController {
 									if (SQLUtil.results.next()) {
 										statusLabel.setTextFill(Color.web(DriverConstants.COLOR_SUCCESS));
 										enableGUI("Row: " + SQLUtil.results.getRow());
-										imageScrollPane.setFitToWidth(false);
-										imageScrollPane.setFitToHeight(false);
 										displayCollectedImage(SQLUtil.getBinaryFromRow());
 									} else {
 										statusLabel.setTextFill(Color.web(DriverConstants.COLOR_SUCCESS));
 										enableGUI("No records found ...");
-										saveAsMenuItem.setDisable(true);
 										displayInfoImage(Main.class.getResourceAsStream("resources/imageNotFound.png"));
 									}
 								} else {
 									statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
 									enableGUI("No results returned ...");
-									saveAsMenuItem.setDisable(true);
 									displayInfoImage(Main.class.getResourceAsStream("resources/imageError.png"));
 								}
 							} catch (Exception e) {
