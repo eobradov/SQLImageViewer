@@ -21,9 +21,9 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource("Connect.fxml"));
+			BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource("resources/fxml/Connect.fxml"));
 			Scene scene = new Scene(root, 400, 400);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("resources/css/application.css").toExternalForm());
 			primaryStage.setTitle(DriverConstants.PROGRAM_TITLE);
 			primaryStage.setScene(scene);
 			primaryStage.getIcons().add(new Image(Main.class.getResourceAsStream("resources/images/logo.png")));

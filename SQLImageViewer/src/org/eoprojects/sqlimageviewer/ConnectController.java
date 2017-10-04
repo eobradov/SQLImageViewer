@@ -273,7 +273,7 @@ public class ConnectController {
 							if (loadNext) {
 								BorderPane imageViewer;
 								try {
-									imageViewer = (BorderPane)FXMLLoader.load(getClass().getResource("ImageViewer.fxml"));
+									imageViewer = (BorderPane)FXMLLoader.load(Main.class.getResource("resources/fxml/ImageViewer.fxml"));
 									Stage stage = new Stage();
 						            stage.setTitle(DriverConstants.PROGRAM_TITLE);
 						            stage.setScene(new Scene(imageViewer, 640, 480));

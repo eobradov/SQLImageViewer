@@ -196,7 +196,7 @@ public class ImageViewerController {
 		} else if (event.getSource().equals(aboutMenuItem)) {
 			BorderPane about;
 			try {
-				about = (BorderPane) FXMLLoader.load(getClass().getResource("About.fxml"));
+				about = (BorderPane) FXMLLoader.load(Main.class.getResource("resources/fxml/About.fxml"));
 				Stage stage = new Stage();
 				stage.setTitle(DriverConstants.PROGRAM_TITLE);
 				stage.setScene(new Scene(about, 450, 450));
