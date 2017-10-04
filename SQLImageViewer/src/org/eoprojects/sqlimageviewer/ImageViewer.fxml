@@ -37,12 +37,12 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextArea fx:id="sqlQueryArea" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" wrapText="true">
+                  <TextArea fx:id="sqlQueryArea" focusTraversable="false" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" wrapText="true">
                      <GridPane.margin>
                         <Insets left="5.0" />
                      </GridPane.margin>
                   </TextArea>
-                  <Button fx:id="executeButton" contentDisplay="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#handleAction" text="Execute" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                  <Button fx:id="executeButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleAction" text="Execute" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
                      <GridPane.margin>
                         <Insets right="5.0" />
                      </GridPane.margin>
@@ -63,14 +63,12 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button fx:id="previousButton" mnemonicParsing="false" onAction="#handleAction" text="&lt;" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="TOP" />
-                  <Button fx:id="nextButton" layoutX="298.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleAction" text="&gt;" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="TOP" />
-                  <ProgressIndicator fx:id="statusProgress" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="25.0" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+                  <ProgressIndicator fx:id="statusProgress" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="25.0" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                      <GridPane.margin>
                         <Insets left="5.0" />
                      </GridPane.margin>
                   </ProgressIndicator>
-                  <Label fx:id="statusLabel" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" text="Label" GridPane.columnIndex="1" GridPane.valignment="TOP">
+                  <Label fx:id="statusLabel" focusTraversable="false" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" text="Label" GridPane.columnIndex="1" GridPane.valignment="TOP">
                      <padding>
                         <Insets left="5.0" />
                      </padding>
@@ -79,6 +77,8 @@
                      </font>
                   </Label>
                   <Button fx:id="firstButton" layoutX="320.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleAction" text="&lt;&lt;" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="TOP" />
+                  <Button fx:id="previousButton" mnemonicParsing="false" onAction="#handleAction" text="&lt;" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="TOP" />
+                  <Button fx:id="nextButton" layoutX="298.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleAction" text="&gt;" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="TOP" />
                   <Button fx:id="lastButton" layoutX="350.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleAction" text="&gt;&gt;" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.valignment="TOP" />
                </children>
             </GridPane>
@@ -115,7 +115,7 @@
                <content>
                   <ImageView fx:id="imageView" nodeOrientation="INHERIT" pickOnBounds="true" smooth="false">
                      <image>
-                        <Image url="@resources/logo.png" />
+                        <Image url="@resources/images/logo.png" />
                      </image>
                   </ImageView>
                </content>

@@ -6,11 +6,16 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.fxml.FXMLLoader;
 
+/**
+ * SQL Image Viewer main class
+ * <BR>Images and icons taken from: <a href="https://www.flaticon.com/">www.flaticon.com</a>
+ * 
+ * @author Edi Obradovic
+ * @version 1.0
+ */
 public class Main extends Application {
 
 	@Override
@@ -21,7 +26,7 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setTitle(DriverConstants.PROGRAM_TITLE);
 			primaryStage.setScene(scene);
-			primaryStage.getIcons().add(new Image(Main.class.getResourceAsStream("resources/logo.png")));
+			primaryStage.getIcons().add(new Image(Main.class.getResourceAsStream("resources/images/logo.png")));
 			primaryStage.show();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -61,14 +61,14 @@
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </padding>
          <children>
-            <Label fx:id="productNameLabel" text="Product Name" GridPane.columnIndex="1" GridPane.valignment="CENTER">
+            <Label fx:id="logoLabel" focusTraversable="false" text="Logo" GridPane.valignment="CENTER" />
+            <Label fx:id="productNameLabel" focusTraversable="false" text="Product Name" GridPane.columnIndex="1" GridPane.valignment="CENTER">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="authorLabel" text="Author" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-            <Label text="Author:" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-            <Label fx:id="logoLabel" text="Logo" GridPane.valignment="CENTER" />
+            <Label focusTraversable="false" text="Author:" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <Label fx:id="authorLabel" focusTraversable="false" text="Author" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
    </top>

@@ -16,28 +16,37 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+/**
+ * Controller for About.fxml
+ * 
+ * @author Edi Obradovic
+ * @version 1.0
+ */
 public class AboutController {
-	
+
 	@FXML
 	private Button okButton;
-	
+
 	@FXML
 	private TextArea licenseText;
-	
+
 	@FXML
 	private Label authorLabel;
-	
+
 	@FXML
 	private Label productNameLabel;
-	
+
 	@FXML
 	private Label logoLabel;
-	
+
+	/**
+	 * Called on GUI startup
+	 */
 	@FXML
 	private void initialize() {
 		productNameLabel.setText(DriverConstants.PROGRAM_NAME + " V" + DriverConstants.PROGRAM_VERSION);
 		authorLabel.setText(DriverConstants.PROGRAM_AUTHOR);
-		
+
 		BufferedReader br = null;
 		String line;
 		try {
@@ -52,27 +61,33 @@ public class AboutController {
 				try {
 					br.close();
 				} catch (IOException e) {
-					//
-				}	
-			}	
+					e.printStackTrace();
+				}
+			}
 		}
-		
+
 		licenseText.setEditable(false);
 		licenseText.selectHome();
 		licenseText.deselect();
-		
+
 		logoLabel.setText("");
-		Image logoImage = new Image(Main.class.getResourceAsStream("resources/logo.png"));
+		Image logoImage = new Image(Main.class.getResourceAsStream("resources/images/logo.png"));
 		logoLabel.setGraphic(new ImageView(logoImage));
 	}
-	
+
+	/**
+	 * Handle actions on GUI elements
+	 * 
+	 * @param event
+	 */
 	@FXML
 	private void handleAction(ActionEvent event) {
 		if (event.getSource().equals(okButton)) {
-			Node source = (Node) event.getSource(); 
-		    Stage currentstage = (Stage) source.getScene().getWindow();
+			Node source = (Node) event.getSource();
+			Stage currentstage = (Stage) source.getScene().getWindow();
 			currentstage.close();
 		}
+		event.consume();
 	}
-	
+
 }

@@ -23,13 +23,19 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+/**
+ * Controller for Connect.fxml
+ *  
+ * @author Edi Obradovic
+ * @version 1.0
+ */
 public class ConnectController {
-
-	private static final String EMPTY_LIST_ITEM = "----";
 
 	private static Thread connectorThread = null;
 	private static Stage currentstage;
@@ -67,6 +73,9 @@ public class ConnectController {
 	@FXML
 	private ProgressIndicator statusProgress;
 
+	/**
+	 * Called on GUI startup
+	 */
 	@FXML
 	private void initialize() {
 		statusLabel.setTextFill(Color.web(DriverConstants.COLOR_NEUTRAL));
@@ -74,23 +83,28 @@ public class ConnectController {
 		statusProgress.setVisible(false);
 
 		driverList.add(DriverConstants.MICROSOFT_SQL_NAME);
-		databaseList.add(EMPTY_LIST_ITEM);
+		databaseList.add(DriverConstants.EMPTY_LIST_ITEM);
 
 		driverBox.setItems(driverList);
 		driverBox.setValue(DriverConstants.MICROSOFT_SQL_NAME);
 
-		serverField.setText("10.20.10.171\\SQLEXPRESS:1433");
-		usernameField.setText("sa");
-		passwordField.setText("W!nd0w5");
+		serverField.setText(DriverConstants.getDefaultServer(DriverConstants.MICROSOFT_SQL_NAME));
+		usernameField.setText(DriverConstants.getDefaultUsername(DriverConstants.MICROSOFT_SQL_NAME));
+		passwordField.setText("");
 
 		databaseBox.setItems(databaseList);
-		databaseBox.setValue(EMPTY_LIST_ITEM);
+		databaseBox.setValue(DriverConstants.EMPTY_LIST_ITEM);
 		
 		logoLabel.setText("");
-		Image logoImage = new Image(Main.class.getResourceAsStream("resources/logo.png"));
+		Image logoImage = new Image(Main.class.getResourceAsStream("resources/images/logo.png"));
 		logoLabel.setGraphic(new ImageView(logoImage));
 	}
 
+	/**
+	 * Handle actions on GUI elements
+	 * 
+	 * @param event
+	 */
 	@FXML
 	private void handleAction(ActionEvent event) {
 		Node source = (Node) event.getSource(); 
@@ -107,8 +121,36 @@ public class ConnectController {
 			statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
 			statusLabel.setText(event.toString());
 		}
+		event.consume();
+	}
+	
+	/**
+	 * Handle key actions on GUI elements
+	 * 
+	 * @param event
+	 */
+	@FXML
+	private void handleKeyEvent(KeyEvent event) {
+		Node source = (Node) event.getSource(); 
+	    currentstage  = (Stage) source.getScene().getWindow();
+	    
+		if (event.getSource().equals(continueButton)) {
+			if (event.getCode() == KeyCode.ENTER) {
+				connectSQL(true);
+			}
+
+		} else if (event.getSource().equals(queryButton)) {
+			if (event.getCode() == KeyCode.ENTER) {
+				connectSQL(false);
+				collectDB();		
+			}
+		}
+		event.consume();
 	}
 
+	/**
+	 * Get list of databases from SQL server
+	 */
 	private void collectDB() {
 
 		Task<Void> taskCollectDB = new Task<Void>() {
@@ -142,6 +184,11 @@ public class ConnectController {
 		collectDBThread.start();
 	}
 
+	/**
+	 * Connect to SQL server
+	 * 
+	 * @param loadNext
+	 */
 	private void connectSQL(boolean loadNext) {
 		
 		statusLabel.setTextFill(Color.web(DriverConstants.COLOR_NEUTRAL));
@@ -206,7 +253,7 @@ public class ConnectController {
 					connection = connectionPrefix + server.trim();
 				}
 
-				if (database != null && !database.trim().equals("") && !database.trim().equals(EMPTY_LIST_ITEM)) {
+				if (database != null && !database.trim().equals("") && !database.trim().equals(DriverConstants.EMPTY_LIST_ITEM)) {
 					connection += ";databaseName=" + database;
 				}
 
@@ -231,7 +278,7 @@ public class ConnectController {
 						            stage.setTitle(DriverConstants.PROGRAM_TITLE);
 						            stage.setScene(new Scene(imageViewer, 640, 480));
 						            stage.setMaximized(true);
-						            stage.getIcons().add(new Image(Main.class.getResourceAsStream("resources/logo.png")));
+						            stage.getIcons().add(new Image(Main.class.getResourceAsStream("resources/images/logo.png")));
 						            stage.show();
 						            currentstage.close();
 								} catch (IOException e) {
@@ -259,10 +306,18 @@ public class ConnectController {
 		connectorThread.start();
 	}
 	
+	/**
+	 * Enable GUI elements, and display empty message in statusLabel
+	 */
 	private void enableGUI() {
 		enableGUI("");
 	}
 	
+	/**
+	 * Enable GUI elements, and display message in statusLabel
+	 * 
+	 * @param message
+	 */
 	private void enableGUI(String message) {
 		statusProgress.setVisible(false);
 		statusLabel.setText(message);
@@ -275,12 +330,16 @@ public class ConnectController {
 		passwordField.setDisable(false);
 
 		if (databaseList.isEmpty()) {
-			databaseList.add(EMPTY_LIST_ITEM);
+			databaseList.add(DriverConstants.EMPTY_LIST_ITEM);
 			databaseBox.setValue(databaseList.get(0));
 		}
-
 	}
-
+	
+	/**
+	 * Disable GUI elements, and display message in statusLabel
+	 * 
+	 * @param message
+	 */
 	private void disableGUI(String message) {
 		statusProgress.setVisible(true);
 		statusLabel.setText(message);
@@ -292,5 +351,5 @@ public class ConnectController {
 		usernameField.setDisable(true);
 		passwordField.setDisable(true);
 	}
-
+	
 }

@@ -32,60 +32,74 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+/**
+ * Controller for ImageViewer.fxml
+ * 
+ * @author Edi Obradovic
+ * @version 1.0
+ */
 public class ImageViewerController {
 
 	@SuppressWarnings("unused")
 	private static Stage currentstage;
-	
+
 	@FXML
 	private ImageView imageView;
-	
+
 	@FXML
 	private Button executeButton;
-	
+
 	@FXML
 	private Button previousButton;
-	
+
 	@FXML
 	private Button nextButton;
-	
+
 	@FXML
 	private Button firstButton;
-	
+
 	@FXML
 	private Button lastButton;
-	
+
 	@FXML
 	private Label statusLabel;
-	
+
 	@FXML
 	private TextArea sqlQueryArea;
-	
+
 	@FXML
 	private ProgressIndicator statusProgress;
-	
+
 	@FXML
 	private MenuItem saveAsMenuItem;
-	
+
 	@FXML
 	private MenuItem exitMenuItem;
-	
+
 	@FXML
 	private MenuItem aboutMenuItem;
-	
+
 	@FXML
 	private ScrollPane imageScrollPane;
-	
+
+	/**
+	 * Called on GUI startup
+	 */
 	@FXML
 	private void initialize() {
 		statusLabel.setTextFill(Color.web(DriverConstants.COLOR_NEUTRAL));
 		statusLabel.setText("");
 		statusProgress.setVisible(false);
-		
+
 		sqlQueryArea.setText("SELECT ImageName, Image FROM VCIMM_Images ORDER BY TIMESTAMP DESC");
-		displayInfoImage(Main.class.getResourceAsStream("resources/imageIntro.png"));
+		displayInfoImage(Main.class.getResourceAsStream("resources/images/imageIntro.png"));
 	}
-	
+
+	/**
+	 * Handle actions on GUI elements
+	 * 
+	 * @param event
+	 */
 	@FXML
 	private void handleAction(ActionEvent event) {
 		if (event.getSource().equals(previousButton)) {
@@ -94,15 +108,15 @@ public class ImageViewerController {
 					if (SQLUtil.results.previous()) {
 						statusLabel.setTextFill(Color.web(DriverConstants.COLOR_SUCCESS));
 						statusLabel.setText("Row: " + SQLUtil.results.getRow());
-						displayCollectedImage(SQLUtil.getBinaryFromRow());	
+						displayCollectedImage(SQLUtil.getBinaryFromRow());
 					}
 				} catch (Exception e) {
 					statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
 					statusLabel.setText(e.getMessage());
-					displayInfoImage(Main.class.getResourceAsStream("resources/imageError.png"));
+					displayInfoImage(Main.class.getResourceAsStream("resources/images/imageError.png"));
 				}
-			}	
-			
+			}
+
 		} else if (event.getSource().equals(nextButton)) {
 			if (SQLUtil.results != null) {
 				try {
@@ -114,10 +128,10 @@ public class ImageViewerController {
 				} catch (Exception e) {
 					statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
 					statusLabel.setText(e.getMessage());
-					displayInfoImage(Main.class.getResourceAsStream("resources/imageError.png"));
+					displayInfoImage(Main.class.getResourceAsStream("resources/images/imageError.png"));
 				}
 			}
-		
+
 		} else if (event.getSource().equals(firstButton)) {
 			if (SQLUtil.results != null) {
 				try {
@@ -129,10 +143,10 @@ public class ImageViewerController {
 				} catch (Exception e) {
 					statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
 					statusLabel.setText(e.getMessage());
-					displayInfoImage(Main.class.getResourceAsStream("resources/imageError.png"));
+					displayInfoImage(Main.class.getResourceAsStream("resources/images/imageError.png"));
 				}
 			}
-		
+
 		} else if (event.getSource().equals(lastButton)) {
 			if (SQLUtil.results != null) {
 				try {
@@ -144,13 +158,13 @@ public class ImageViewerController {
 				} catch (Exception e) {
 					statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
 					statusLabel.setText(e.getMessage());
-					displayInfoImage(Main.class.getResourceAsStream("resources/imageError.png"));
+					displayInfoImage(Main.class.getResourceAsStream("resources/images/imageError.png"));
 				}
 			}
-			
+
 		} else if (event.getSource().equals(executeButton)) {
 			executeQuery();
-			
+
 		} else if (event.getSource().equals(saveAsMenuItem)) {
 			FileChooser fileChooser = new FileChooser();
 			fileChooser.setTitle("Save Image");
@@ -158,11 +172,11 @@ public class ImageViewerController {
 			if (fileName != null) {
 				fileChooser.setInitialFileName(fileName);
 			}
-			
+
 			File file = fileChooser.showSaveDialog(null);
 			if (file != null) {
 				try {
-					fileName = file.getName();          
+					fileName = file.getName();
 					String fileExtension = fileName.substring(fileName.indexOf(".") + 1, file.getName().length());
 					if (fileExtension == null || fileExtension.trim().equals("")) {
 						fileExtension = "jpg";
@@ -175,35 +189,39 @@ public class ImageViewerController {
 					statusLabel.setText(e.getMessage());
 				}
 			}
-			
+
 		} else if (event.getSource().equals(exitMenuItem)) {
 			System.exit(0);
-		
+
 		} else if (event.getSource().equals(aboutMenuItem)) {
 			BorderPane about;
 			try {
-				about = (BorderPane)FXMLLoader.load(getClass().getResource("About.fxml"));
+				about = (BorderPane) FXMLLoader.load(getClass().getResource("About.fxml"));
 				Stage stage = new Stage();
-	            stage.setTitle(DriverConstants.PROGRAM_TITLE);
-	            stage.setScene(new Scene(about, 450, 450));
-	            stage.getIcons().add(new Image(Main.class.getResourceAsStream("resources/logo.png")));
-	            stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent keyEvent) -> {
-	                if (KeyCode.ESCAPE == keyEvent.getCode()) {
-	                    stage.close();
-	                }
-	            });
-	            stage.show();
+				stage.setTitle(DriverConstants.PROGRAM_TITLE);
+				stage.setScene(new Scene(about, 450, 450));
+				stage.getIcons().add(new Image(Main.class.getResourceAsStream("resources/images/logo.png")));
+				stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent keyEvent) -> {
+					if (KeyCode.ESCAPE == keyEvent.getCode()) {
+						stage.close();
+					}
+				});
+				stage.show();
 			} catch (IOException e) {
 				statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
 				statusLabel.setText(e.getMessage().trim());
 			}
-			
+
 		} else {
 			statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
 			statusLabel.setText("Action not defined ...");
 		}
+		event.consume();
 	}
-	
+
+	/**
+	 * Configure availability for navigation buttons
+	 */
 	private void setPreviousNext() {
 		if (SQLUtil.results != null) {
 			try {
@@ -223,7 +241,7 @@ public class ImageViewerController {
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
-			}	
+			}
 		} else {
 			firstButton.setDisable(true);
 			previousButton.setDisable(true);
@@ -231,35 +249,53 @@ public class ImageViewerController {
 			nextButton.setDisable(true);
 		}
 	}
-	
+
+	/**
+	 * Display info message
+	 * 
+	 * @param inputStream
+	 */
 	private void displayInfoImage(InputStream inputStream) {
 		saveAsMenuItem.setDisable(true);
 		displayImage(inputStream);
 	}
 	
+	/**
+	 * Display image from SQL
+	 * 
+	 * @param inputStream
+	 */
 	private void displayCollectedImage(InputStream inputStream) {
 		saveAsMenuItem.setDisable(false);
 		displayImage(inputStream);
 	}
-	
+
+	/**
+	 * Display image
+	 * 
+	 * @param inputStream
+	 */
 	private void displayImage(InputStream inputStream) {
 		imageView.setImage(null);
-		
+
 		Image image = new Image(inputStream);
-		
-		//imageView.preserveRatioProperty().set(true);
+
+		// imageView.preserveRatioProperty().set(true);
 		imageView.setFitHeight(0);
 		imageView.setFitWidth(0);
 		imageView.setImage(image);
-		
+
 		setPreviousNext();
 	}
-	
+
+	/**
+	 * Execute SQL query
+	 */
 	private void executeQuery() {
 		Task<Void> taskExecuteQuery = new Task<Void>() {
 			@Override
 			public Void call() throws Exception {
-				try {					
+				try {
 					SQLUtil.executeQuery(sqlQueryArea.getText());
 					Platform.runLater(new Runnable() {
 						@Override
@@ -273,17 +309,18 @@ public class ImageViewerController {
 									} else {
 										statusLabel.setTextFill(Color.web(DriverConstants.COLOR_SUCCESS));
 										enableGUI("No records found ...");
-										displayInfoImage(Main.class.getResourceAsStream("resources/imageNotFound.png"));
+										displayInfoImage(
+												Main.class.getResourceAsStream("resources/images/imageNotFound.png"));
 									}
 								} else {
 									statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
 									enableGUI("No results returned ...");
-									displayInfoImage(Main.class.getResourceAsStream("resources/imageError.png"));
+									displayInfoImage(Main.class.getResourceAsStream("resources/images/imageError.png"));
 								}
 							} catch (Exception e) {
 								statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
 								enableGUI(e.getMessage());
-								displayInfoImage(Main.class.getResourceAsStream("resources/imageError.png"));
+								displayInfoImage(Main.class.getResourceAsStream("resources/images/imageError.png"));
 							}
 						}
 					});
@@ -293,7 +330,7 @@ public class ImageViewerController {
 						public void run() {
 							statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
 							enableGUI(e.getMessage());
-							displayInfoImage(Main.class.getResourceAsStream("resources/imageError.png"));
+							displayInfoImage(Main.class.getResourceAsStream("resources/images/imageError.png"));
 						}
 					});
 				}
@@ -303,12 +340,15 @@ public class ImageViewerController {
 
 		Thread collectDBThread = new Thread(taskExecuteQuery);
 		collectDBThread.setDaemon(true);
-		displayInfoImage(Main.class.getResourceAsStream("resources/imageSearch.png"));
+		displayInfoImage(Main.class.getResourceAsStream("resources/images/imageSearch.png"));
 		statusLabel.setTextFill(Color.web(DriverConstants.COLOR_NEUTRAL));
 		disableGUI("Executing Query ...");
 		collectDBThread.start();
 	}
-	
+
+	/**
+	 * Enable GUI elements, and display empty message in statusLabel
+	 */
 	private void enableGUI(String message) {
 		statusProgress.setVisible(false);
 		executeButton.setDisable(false);
@@ -319,6 +359,9 @@ public class ImageViewerController {
 		statusLabel.setText(message);
 	}
 
+	/**
+	 * Disable GUI elements, and display empty message in statusLabel
+	 */
 	private void disableGUI(String message) {
 		statusProgress.setVisible(true);
 		executeButton.setDisable(true);
@@ -328,5 +371,5 @@ public class ImageViewerController {
 		lastButton.setDisable(true);
 		statusLabel.setText(message);
 	}
-	
+
 }
