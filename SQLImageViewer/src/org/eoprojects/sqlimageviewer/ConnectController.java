@@ -16,7 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ProgressIndicator;
@@ -44,7 +44,7 @@ public class ConnectController {
 	ObservableList<String> databaseList = FXCollections.observableArrayList();
 
 	@FXML
-	private ChoiceBox<String> driverBox;
+	private ComboBox<String> driverBox;
 
 	@FXML
 	private TextField serverField;
@@ -56,7 +56,7 @@ public class ConnectController {
 	private PasswordField passwordField;
 
 	@FXML
-	private ChoiceBox<String> databaseBox;
+	private ComboBox<String> databaseBox;
 
 	@FXML
 	private Button queryButton;
@@ -72,7 +72,7 @@ public class ConnectController {
 
 	@FXML
 	private ProgressIndicator statusProgress;
-
+	
 	/**
 	 * Called on GUI startup
 	 */
@@ -83,15 +83,17 @@ public class ConnectController {
 		statusProgress.setVisible(false);
 
 		driverList.add(DriverConstants.MICROSOFT_SQL_NAME);
+		driverList.add(DriverConstants.MYSQL_NAME);
 		databaseList.add(DriverConstants.EMPTY_LIST_ITEM);
 
 		driverBox.setItems(driverList);
 		driverBox.setValue(DriverConstants.MICROSOFT_SQL_NAME);
-
-		serverField.setText(DriverConstants.getDefaultServer(DriverConstants.MICROSOFT_SQL_NAME));
-		usernameField.setText(DriverConstants.getDefaultUsername(DriverConstants.MICROSOFT_SQL_NAME));
+		
+		String selectedItem = driverBox.getSelectionModel().getSelectedItem();
+		serverField.setText(DriverConstants.getDefaultServer(selectedItem));
+		usernameField.setText(DriverConstants.getDefaultUsername(selectedItem));
 		passwordField.setText("");
-
+		
 		databaseBox.setItems(databaseList);
 		databaseBox.setValue(DriverConstants.EMPTY_LIST_ITEM);
 		
@@ -116,7 +118,17 @@ public class ConnectController {
 		} else if (event.getSource().equals(queryButton)) {
 			connectSQL(false);
 			collectDB();
-
+			
+		} else if (event.getSource().equals(driverBox)) {
+			String selectedItem = driverBox.getSelectionModel().getSelectedItem();
+			serverField.setText(DriverConstants.getDefaultServer(selectedItem));
+			usernameField.setText(DriverConstants.getDefaultUsername(selectedItem));
+			passwordField.setText("");
+			
+			databaseList.clear();
+			databaseList.add(DriverConstants.EMPTY_LIST_ITEM);
+			databaseBox.setValue(DriverConstants.EMPTY_LIST_ITEM);
+			
 		} else {
 			statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
 			statusLabel.setText(event.toString());
@@ -144,7 +156,19 @@ public class ConnectController {
 				connectSQL(false);
 				collectDB();		
 			}
+		} else if (event.getSource().equals(driverBox)) {
+			if (event.getCode() == KeyCode.ENTER) {
+				String selectedItem = driverBox.getSelectionModel().getSelectedItem();
+				serverField.setText(DriverConstants.getDefaultServer(selectedItem));
+				usernameField.setText(DriverConstants.getDefaultUsername(selectedItem));
+				passwordField.setText("");
+				
+				databaseList.clear();
+				databaseList.add(DriverConstants.EMPTY_LIST_ITEM);
+				databaseBox.setValue(DriverConstants.EMPTY_LIST_ITEM);	
+			}
 		}
+			
 		event.consume();
 	}
 
@@ -161,7 +185,7 @@ public class ConnectController {
 				}
 				
 				if (SQLUtil.conn != null) {
-					ArrayList<String> databases = SQLUtil.getDatabases();
+					ArrayList<String> databases = SQLUtil.getDatabases(driverBox.getSelectionModel().getSelectedItem().toString());
 					Platform.runLater(new Runnable() {
 						@Override
 						public void run() {
@@ -199,7 +223,6 @@ public class ConnectController {
 		String server = serverField.getText();
 		String username = usernameField.getText();
 		String password = passwordField.getText();
-		String database = databaseBox.getSelectionModel().getSelectedItem().toString();
 
 		String missingParameters = "";
 
@@ -252,9 +275,12 @@ public class ConnectController {
 				} else {
 					connection = connectionPrefix + server.trim();
 				}
-
-				if (database != null && !database.trim().equals("") && !database.trim().equals(DriverConstants.EMPTY_LIST_ITEM)) {
-					connection += ";databaseName=" + database;
+				
+				if (loadNext) {
+					String database = databaseBox.getSelectionModel().getSelectedItem().toString();
+					if (database != null && !database.trim().equals("") && !database.trim().equals(DriverConstants.EMPTY_LIST_ITEM)) {
+						connection = SQLUtil.addDatabaseToConnection(driverBox.getSelectionModel().getSelectedItem().toString(), connection, database);
+					}
 				}
 
 				SQLUtil.setDriver(driver);

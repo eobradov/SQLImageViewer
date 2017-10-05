@@ -64,14 +64,20 @@ public class SQLUtil {
 
 	/**
 	 * Get list of databases from SQL server
+	 * @param driver 
 	 * 
 	 * @return ArrayList<String> result
 	 * @throws Exception
 	 */
-	public static ArrayList<String> getDatabases() throws Exception {
+	public static ArrayList<String> getDatabases(String driver) throws Exception {
 		ArrayList<String> result = new ArrayList<String>();
 		if (conn != null) {
-			String query = "SELECT name FROM master.dbo.sysdatabases";
+			String query = "";
+			if (driver.equals(DriverConstants.MICROSOFT_SQL_NAME)) {
+				query = "SELECT name FROM master.dbo.sysdatabases";
+			} else if (driver.equals(DriverConstants.MYSQL_NAME)) {
+				query = "show databases;";
+			}
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 
@@ -141,7 +147,6 @@ public class SQLUtil {
 	 * Get VARCHAR/CHAR value from ResulSet row
 	 * 
 	 * @return InputStream returnValue
-	 * @throws SQLException
 	 */
 	public static String getStringFromRow() {
 		String returnValue = null;
@@ -157,5 +162,25 @@ public class SQLUtil {
 			e.printStackTrace();
 		}
 		return returnValue;
+	}
+
+	/**
+	 * Creates connection string from driver, connection, and database
+	 * 
+	 * @param driver
+	 * @param connection
+	 * @param database
+	 * @return String
+	 */
+	public static String addDatabaseToConnection(String driver, String connection, String database) {
+		String result = connection;
+		
+		if (driver.equals(DriverConstants.MICROSOFT_SQL_NAME)) {
+			result += ";databaseName=" + database;
+		} else if (driver.equals(DriverConstants.MYSQL_NAME)) {
+			result += "/" + database;
+		}
+		
+		return result;
 	}
 }

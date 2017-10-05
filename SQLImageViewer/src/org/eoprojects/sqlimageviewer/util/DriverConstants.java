@@ -22,6 +22,12 @@ public class DriverConstants {
 	public static final String MICROSOFT_SQL_DEFAULT_SERVER 	= "127.0.0.1\\SQLEXPRESS";
 	public static final String MICROSOFT_SQL_DEFAULT_USERNAME 	= "sa";
 	
+	public static final String MYSQL_NAME 						= "MySQL";
+	public static final String MYSQL_VALUE 						= "com.mysql.jdbc.Driver";
+	public static final String MYSQL_PREFIX 					= "jdbc:mysql://";
+	public static final String MYSQLL_DEFAULT_SERVER 			= "127.0.0.1";
+	public static final String MYSQLL_DEFAULT_USERNAME 			= "root";
+	
 	public static final String COLOR_NEUTRAL 					= "#000000";
 	public static final String COLOR_SUCCESS 					= "#09b52e";
 	public static final String COLOR_FAIL 						= "#b50808";
@@ -36,6 +42,8 @@ public class DriverConstants {
 	public static String getDriverValue(String driverName) {
 		if (driverName.trim().equals(MICROSOFT_SQL_NAME)) {
 			return MICROSOFT_SQL_VALUE;
+		} else if (driverName.trim().equals(MYSQL_NAME)) {
+			return MYSQL_VALUE;
 		} else {
 			return "";
 		}
@@ -51,6 +59,8 @@ public class DriverConstants {
 	public static String getConnectionPrefix(String driverName) {
 		if (driverName.trim().equals(MICROSOFT_SQL_NAME)) {
 			return MICROSOFT_SQL_PREFIX;
+		} else if (driverName.trim().equals(MYSQL_NAME)) {
+			return MYSQL_PREFIX;
 		} else {
 			return "";
 		}
@@ -65,6 +75,8 @@ public class DriverConstants {
 	public static String getDefaultServer(String driverName) {
 		if (driverName.trim().equals(MICROSOFT_SQL_NAME)) {
 			return MICROSOFT_SQL_DEFAULT_SERVER;
+		} else if (driverName.trim().equals(MYSQL_NAME)) {
+			return MYSQLL_DEFAULT_SERVER;
 		} else {
 			return "";
 		}
@@ -79,6 +91,8 @@ public class DriverConstants {
 	public static String getDefaultUsername(String driverName) {
 		if (driverName.trim().equals(MICROSOFT_SQL_NAME)) {
 			return MICROSOFT_SQL_DEFAULT_USERNAME;
+		} else if (driverName.trim().equals(MYSQL_NAME)) {
+			return MYSQLL_DEFAULT_USERNAME;
 		} else {
 			return "";
 		}
