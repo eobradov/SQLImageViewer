@@ -15,6 +15,7 @@ public class DriverConstants {
 	public static final String PROGRAM_NAME 					= "SQL Image Viewer";
 	public static final String PROGRAM_VERSION 					= "1.0";
 	public static final String PROGRAM_AUTHOR 					= "Edi Obradovic";
+	public static final String PROGRAM_EMAIL					= "edi.obradovic@gmail.com";
 
 	public static final String MICROSOFT_SQL_NAME 				= "Microsoft SQL Server";
 	public static final String MICROSOFT_SQL_VALUE 				= "com.microsoft.sqlserver.jdbc.SQLServerDriver";

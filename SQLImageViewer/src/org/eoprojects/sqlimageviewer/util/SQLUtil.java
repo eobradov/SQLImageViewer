@@ -132,7 +132,8 @@ public class SQLUtil {
 			ResultSetMetaData rsmd = results.getMetaData();
 			for (int i = 1; i <= rsmd.getColumnCount(); i++) {
 				int columnType = rsmd.getColumnType(i);
-				if (columnType == java.sql.Types.VARBINARY || columnType == java.sql.Types.BINARY) {
+				if (columnType == java.sql.Types.BINARY || columnType == java.sql.Types.VARBINARY
+						|| columnType == java.sql.Types.LONGVARBINARY) {
 					returnValue = results.getBinaryStream(i);
 				}
 			}
@@ -154,7 +155,8 @@ public class SQLUtil {
 			ResultSetMetaData rsmd = results.getMetaData();
 			for (int i = 1; i <= rsmd.getColumnCount(); i++) {
 				int columnType = rsmd.getColumnType(i);
-				if (columnType == java.sql.Types.VARCHAR || columnType == java.sql.Types.CHAR) {
+				if (columnType == java.sql.Types.CHAR || columnType == java.sql.Types.VARCHAR
+						|| columnType == java.sql.Types.LONGNVARCHAR) {
 					returnValue = results.getString(i);
 				}
 			}
@@ -182,5 +184,28 @@ public class SQLUtil {
 		}
 		
 		return result;
+	}
+
+	/**
+	 * Get VARBINARY/BINARY value from ResulSet row
+	 * 
+	 * @return InputStream returnValue
+	 * @throws SQLException
+	 */
+	public static InputStream getBlobFromRow() throws SQLException {
+		InputStream returnValue = null;
+		try {
+			ResultSetMetaData rsmd = results.getMetaData();
+			for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+				int columnType = rsmd.getColumnType(i);
+				if (columnType == java.sql.Types.BLOB) {
+					returnValue = results.getBlob(i).getBinaryStream();
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return returnValue;
 	}
 }

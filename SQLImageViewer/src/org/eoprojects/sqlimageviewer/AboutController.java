@@ -1,8 +1,11 @@
 package org.eoprojects.sqlimageviewer;
 
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import org.eoprojects.sqlimageviewer.util.DriverConstants;
 
@@ -10,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -32,6 +36,9 @@ public class AboutController {
 
 	@FXML
 	private Label authorLabel;
+	
+	@FXML
+	private Hyperlink emailHyperlink;
 
 	@FXML
 	private Label productNameLabel;
@@ -40,13 +47,14 @@ public class AboutController {
 	private Label logoLabel;
 
 	/**
-	 * Called on GUI startup
+	 * Called on GUI initialize
 	 */
 	@FXML
 	private void initialize() {
 		productNameLabel.setText(DriverConstants.PROGRAM_NAME + " V" + DriverConstants.PROGRAM_VERSION);
 		authorLabel.setText(DriverConstants.PROGRAM_AUTHOR);
-
+		emailHyperlink.setText(DriverConstants.PROGRAM_EMAIL);
+		
 		BufferedReader br = null;
 		String line;
 		try {
@@ -86,8 +94,15 @@ public class AboutController {
 			Node source = (Node) event.getSource();
 			Stage currentstage = (Stage) source.getScene().getWindow();
 			currentstage.close();
+		} else if (event.getSource().equals(emailHyperlink)) {
+			String mailString = ("mailto:" + emailHyperlink.getText() + "?subject=SQL%20Image%20Viewer");
+			System.out.println(mailString);
+			try {
+				Desktop.getDesktop().browse(new URI(mailString));
+			} catch (IOException | URISyntaxException e) {
+				e.printStackTrace();
+			}
 		}
 		event.consume();
 	}
-
 }

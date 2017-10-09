@@ -16,6 +16,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -83,7 +84,7 @@ public class ImageViewerController {
 	private ScrollPane imageScrollPane;
 
 	/**
-	 * Called on GUI startup
+	 * Called on GUI initialize
 	 */
 	@FXML
 	private void initialize() {
@@ -103,119 +104,192 @@ public class ImageViewerController {
 	@FXML
 	private void handleAction(ActionEvent event) {
 		if (event.getSource().equals(previousButton)) {
-			if (SQLUtil.results != null) {
-				try {
-					if (SQLUtil.results.previous()) {
-						statusLabel.setTextFill(Color.web(DriverConstants.COLOR_SUCCESS));
-						statusLabel.setText("Row: " + SQLUtil.results.getRow());
-						displayCollectedImage(SQLUtil.getBinaryFromRow());
-					}
-				} catch (Exception e) {
-					statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
-					statusLabel.setText(e.getMessage());
-					displayInfoImage(Main.class.getResourceAsStream("resources/images/imageError.png"));
-				}
-			}
-
+			handlePreviousButton();
 		} else if (event.getSource().equals(nextButton)) {
-			if (SQLUtil.results != null) {
-				try {
-					if (SQLUtil.results.next()) {
-						statusLabel.setTextFill(Color.web(DriverConstants.COLOR_SUCCESS));
-						statusLabel.setText("Row: " + SQLUtil.results.getRow());
-						displayCollectedImage(SQLUtil.getBinaryFromRow());
-					}
-				} catch (Exception e) {
-					statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
-					statusLabel.setText(e.getMessage());
-					displayInfoImage(Main.class.getResourceAsStream("resources/images/imageError.png"));
-				}
-			}
-
+			handleNextButton();
 		} else if (event.getSource().equals(firstButton)) {
-			if (SQLUtil.results != null) {
-				try {
-					if (SQLUtil.results.first()) {
-						statusLabel.setTextFill(Color.web(DriverConstants.COLOR_SUCCESS));
-						statusLabel.setText("Row: " + SQLUtil.results.getRow());
-						displayCollectedImage(SQLUtil.getBinaryFromRow());
-					}
-				} catch (Exception e) {
-					statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
-					statusLabel.setText(e.getMessage());
-					displayInfoImage(Main.class.getResourceAsStream("resources/images/imageError.png"));
-				}
-			}
-
+			handleFirstButton();
 		} else if (event.getSource().equals(lastButton)) {
-			if (SQLUtil.results != null) {
-				try {
-					if (SQLUtil.results.last()) {
-						statusLabel.setTextFill(Color.web(DriverConstants.COLOR_SUCCESS));
-						statusLabel.setText("Row: " + SQLUtil.results.getRow());
-						displayCollectedImage(SQLUtil.getBinaryFromRow());
-					}
-				} catch (Exception e) {
-					statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
-					statusLabel.setText(e.getMessage());
-					displayInfoImage(Main.class.getResourceAsStream("resources/images/imageError.png"));
-				}
-			}
-
+			handleLastButton();
 		} else if (event.getSource().equals(executeButton)) {
 			executeQuery();
-
 		} else if (event.getSource().equals(saveAsMenuItem)) {
-			FileChooser fileChooser = new FileChooser();
-			fileChooser.setTitle("Save Image");
-			String fileName = SQLUtil.getStringFromRow();
-			if (fileName != null) {
-				fileChooser.setInitialFileName(fileName);
-			}
-
-			File file = fileChooser.showSaveDialog(null);
-			if (file != null) {
-				try {
-					fileName = file.getName();
-					String fileExtension = fileName.substring(fileName.indexOf(".") + 1, file.getName().length());
-					if (fileExtension == null || fileExtension.trim().equals("")) {
-						fileExtension = "jpg";
-					}
-					ImageIO.write(SwingFXUtils.fromFXImage(imageView.getImage(), null), fileExtension, file);
-					statusLabel.setTextFill(Color.web(DriverConstants.COLOR_SUCCESS));
-					statusLabel.setText("Saved");
-				} catch (IOException e) {
-					statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
-					statusLabel.setText(e.getMessage());
-				}
-			}
-
+			handleSaveAsMenu();
 		} else if (event.getSource().equals(exitMenuItem)) {
 			System.exit(0);
-
 		} else if (event.getSource().equals(aboutMenuItem)) {
-			BorderPane about;
+			handleAboutMenu();
+		} else {
+			handleUnknown();
+		}
+		event.consume();
+	}
+	
+	private void handlePreviousButton() {
+		if (SQLUtil.results != null) {
 			try {
-				about = (BorderPane) FXMLLoader.load(Main.class.getResource("resources/fxml/About.fxml"));
-				Stage stage = new Stage();
-				stage.setTitle(DriverConstants.PROGRAM_TITLE);
-				stage.setScene(new Scene(about, 450, 450));
-				stage.getIcons().add(new Image(Main.class.getResourceAsStream("resources/images/logo.png")));
-				stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent keyEvent) -> {
-					if (KeyCode.ESCAPE == keyEvent.getCode()) {
-						stage.close();
+				if (SQLUtil.results.previous()) {
+					statusLabel.setTextFill(Color.web(DriverConstants.COLOR_SUCCESS));
+					statusLabel.setText("Row: " + SQLUtil.results.getRow());
+					InputStream inputStream = SQLUtil.getBinaryFromRow();
+					if (inputStream == null) {
+						inputStream = SQLUtil.getBlobFromRow();
 					}
-				});
-				stage.show();
+					if (inputStream != null) {
+						displayCollectedImage(inputStream);	
+					} else {
+						displayInfoImage(Main.class.getResourceAsStream("resources/images/imageNotFound.png"));
+					}
+				}
+			} catch (Exception e) {
+				statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
+				statusLabel.setText(e.getMessage());
+				displayInfoImage(Main.class.getResourceAsStream("resources/images/imageError.png"));
+			}
+		}
+	}
+	
+	private void handleNextButton() {
+		if (SQLUtil.results != null) {
+			try {
+				if (SQLUtil.results.next()) {
+					statusLabel.setTextFill(Color.web(DriverConstants.COLOR_SUCCESS));
+					statusLabel.setText("Row: " + SQLUtil.results.getRow());
+					displayCollectedImage(SQLUtil.getBinaryFromRow());
+				}
+			} catch (Exception e) {
+				statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
+				statusLabel.setText(e.getMessage());
+				displayInfoImage(Main.class.getResourceAsStream("resources/images/imageError.png"));
+			}
+		}
+	}
+	
+	private void handleFirstButton() {
+		if (SQLUtil.results != null) {
+			try {
+				if (SQLUtil.results.first()) {
+					statusLabel.setTextFill(Color.web(DriverConstants.COLOR_SUCCESS));
+					statusLabel.setText("Row: " + SQLUtil.results.getRow());
+					displayCollectedImage(SQLUtil.getBinaryFromRow());
+				}
+			} catch (Exception e) {
+				statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
+				statusLabel.setText(e.getMessage());
+				displayInfoImage(Main.class.getResourceAsStream("resources/images/imageError.png"));
+			}
+		}
+	}
+	
+	private void handleLastButton() {
+		if (SQLUtil.results != null) {
+			try {
+				if (SQLUtil.results.last()) {
+					statusLabel.setTextFill(Color.web(DriverConstants.COLOR_SUCCESS));
+					statusLabel.setText("Row: " + SQLUtil.results.getRow());
+					displayCollectedImage(SQLUtil.getBinaryFromRow());
+				}
+			} catch (Exception e) {
+				statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
+				statusLabel.setText(e.getMessage());
+				displayInfoImage(Main.class.getResourceAsStream("resources/images/imageError.png"));
+			}
+		}
+	}
+	
+	private void handleSaveAsMenu() {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Save Image");
+		String fileName = SQLUtil.getStringFromRow();
+		if (fileName != null) {
+			fileChooser.setInitialFileName(fileName);
+		}
+
+		File file = fileChooser.showSaveDialog(null);
+		if (file != null) {
+			try {
+				fileName = file.getName();
+				String fileExtension = fileName.substring(fileName.indexOf(".") + 1, file.getName().length());
+				if (fileExtension == null || fileExtension.trim().equals("")) {
+					fileExtension = "jpg";
+				}
+				ImageIO.write(SwingFXUtils.fromFXImage(imageView.getImage(), null), fileExtension, file);
+				statusLabel.setTextFill(Color.web(DriverConstants.COLOR_SUCCESS));
+				statusLabel.setText("Saved");
 			} catch (IOException e) {
 				statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
-				statusLabel.setText(e.getMessage().trim());
+				statusLabel.setText(e.getMessage());
 			}
-
-		} else {
-			statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
-			statusLabel.setText("Action not defined ...");
 		}
+	}
+	
+	private void handleAboutMenu() {
+		BorderPane about;
+		try {
+			about = (BorderPane) FXMLLoader.load(Main.class.getResource("resources/fxml/About.fxml"));
+			Stage stage = new Stage();
+			stage.setTitle(DriverConstants.PROGRAM_TITLE);
+			stage.setScene(new Scene(about, 450, 450));
+			stage.getIcons().add(new Image(Main.class.getResourceAsStream("resources/images/logo.png")));
+			stage.addEventHandler(KeyEvent.KEY_RELEASED, (KeyEvent keyEvent) -> {
+				if (KeyCode.ESCAPE == keyEvent.getCode()) {
+					stage.close();
+				}
+			});
+			stage.show();
+		} catch (IOException e) {
+			statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
+			statusLabel.setText(e.getMessage().trim());
+		}
+	}
+	
+	private void handleUnknown() {
+		statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
+		statusLabel.setText("Action not defined ...");
+	}
+	
+	/**
+	 * Handle key actions on GUI elements
+	 * 
+	 * @param event
+	 */
+	@FXML
+	private void handleKeyEvent(KeyEvent event) {
+		
+		if (event.getSource().equals(previousButton)) {
+			if (event.getCode() == KeyCode.ENTER) {
+				handlePreviousButton();
+			}
+		} else if (event.getSource().equals(nextButton)) {
+			if (event.getCode() == KeyCode.ENTER) {
+				handleNextButton();
+			}
+		} else if (event.getSource().equals(firstButton)) {
+			if (event.getCode() == KeyCode.ENTER) {
+				handleFirstButton();
+			}
+		} else if (event.getSource().equals(lastButton)) {
+			if (event.getCode() == KeyCode.ENTER) {
+				handleLastButton();
+			}
+		} else if (event.getSource().equals(executeButton)) {
+			if (event.getCode() == KeyCode.ENTER) {
+				executeQuery();
+			}
+		} else if (event.getSource().equals(saveAsMenuItem)) {
+			if (event.getCode() == KeyCode.ENTER) {
+				handleSaveAsMenu();
+			}
+		} else if (event.getSource().equals(exitMenuItem)) {
+			if (event.getCode() == KeyCode.ENTER) {
+				System.exit(0);
+			}
+		} else if (event.getSource().equals(aboutMenuItem)) {
+			if (event.getCode() == KeyCode.ENTER) {
+				handleAboutMenu();
+			}
+		}
+		
 		event.consume();
 	}
 
@@ -305,7 +379,15 @@ public class ImageViewerController {
 									if (SQLUtil.results.next()) {
 										statusLabel.setTextFill(Color.web(DriverConstants.COLOR_SUCCESS));
 										enableGUI("Row: " + SQLUtil.results.getRow());
-										displayCollectedImage(SQLUtil.getBinaryFromRow());
+										InputStream inputStream = SQLUtil.getBinaryFromRow();
+										if (inputStream == null) {
+											inputStream = SQLUtil.getBlobFromRow();
+										}
+										if (inputStream != null) {
+											displayCollectedImage(inputStream);	
+										} else {
+											displayInfoImage(Main.class.getResourceAsStream("resources/images/imageNotFound.png"));
+										}
 									} else {
 										statusLabel.setTextFill(Color.web(DriverConstants.COLOR_SUCCESS));
 										enableGUI("No records found ...");

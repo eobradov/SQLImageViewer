@@ -74,7 +74,7 @@ public class ConnectController {
 	private ProgressIndicator statusProgress;
 	
 	/**
-	 * Called on GUI startup
+	 * Called on GUI initialize
 	 */
 	@FXML
 	private void initialize() {
@@ -114,26 +114,31 @@ public class ConnectController {
 	    
 		if (event.getSource().equals(continueButton)) {
 			connectSQL(true);
-
 		} else if (event.getSource().equals(queryButton)) {
 			connectSQL(false);
 			collectDB();
-			
 		} else if (event.getSource().equals(driverBox)) {
-			String selectedItem = driverBox.getSelectionModel().getSelectedItem();
-			serverField.setText(DriverConstants.getDefaultServer(selectedItem));
-			usernameField.setText(DriverConstants.getDefaultUsername(selectedItem));
-			passwordField.setText("");
-			
-			databaseList.clear();
-			databaseList.add(DriverConstants.EMPTY_LIST_ITEM);
-			databaseBox.setValue(DriverConstants.EMPTY_LIST_ITEM);
-			
+			handleDriverBox();
 		} else {
-			statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
-			statusLabel.setText(event.toString());
+			handleUnknown();
 		}
 		event.consume();
+	}
+	
+	private void handleDriverBox() {
+		String selectedItem = driverBox.getSelectionModel().getSelectedItem();
+		serverField.setText(DriverConstants.getDefaultServer(selectedItem));
+		usernameField.setText(DriverConstants.getDefaultUsername(selectedItem));
+		passwordField.setText("");
+		
+		databaseList.clear();
+		databaseList.add(DriverConstants.EMPTY_LIST_ITEM);
+		databaseBox.setValue(DriverConstants.EMPTY_LIST_ITEM);
+	}
+	
+	private void handleUnknown() {
+		statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
+		statusLabel.setText("Action not defined ...");
 	}
 	
 	/**
@@ -150,7 +155,6 @@ public class ConnectController {
 			if (event.getCode() == KeyCode.ENTER) {
 				connectSQL(true);
 			}
-
 		} else if (event.getSource().equals(queryButton)) {
 			if (event.getCode() == KeyCode.ENTER) {
 				connectSQL(false);
@@ -158,14 +162,7 @@ public class ConnectController {
 			}
 		} else if (event.getSource().equals(driverBox)) {
 			if (event.getCode() == KeyCode.ENTER) {
-				String selectedItem = driverBox.getSelectionModel().getSelectedItem();
-				serverField.setText(DriverConstants.getDefaultServer(selectedItem));
-				usernameField.setText(DriverConstants.getDefaultUsername(selectedItem));
-				passwordField.setText("");
-				
-				databaseList.clear();
-				databaseList.add(DriverConstants.EMPTY_LIST_ITEM);
-				databaseBox.setValue(DriverConstants.EMPTY_LIST_ITEM);	
+				handleDriverBox();
 			}
 		}
 			
