@@ -16,7 +16,6 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -92,7 +91,7 @@ public class ImageViewerController {
 		statusLabel.setText("");
 		statusProgress.setVisible(false);
 
-		sqlQueryArea.setText("SELECT ImageName, Image FROM VCIMM_Images ORDER BY TIMESTAMP DESC");
+		sqlQueryArea.setText("SELECT imageName, image FROM images");
 		displayInfoImage(Main.class.getResourceAsStream("resources/images/imageIntro.png"));
 	}
 
