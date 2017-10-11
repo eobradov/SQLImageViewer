@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.eoprojects.sqlimageviewer.util.DriverConstants;
+import org.eoprojects.sqlimageviewer.util.DriverUtil;
 import org.eoprojects.sqlimageviewer.util.SQLUtil;
 
 import javafx.application.Platform;
@@ -11,6 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -25,6 +27,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -100,6 +103,44 @@ public class ConnectController {
 		logoLabel.setText("");
 		Image logoImage = new Image(Main.class.getResourceAsStream("resources/images/logo.png"));
 		logoLabel.setGraphic(new ImageView(logoImage));
+		
+		queryButton.setText("");
+		queryButton.setStyle("-fx-background-color: transparent;");
+		Image image = new Image(Main.class.getResourceAsStream("resources/images/magnifier-white.png"));
+		queryButton.setGraphic(new ImageView(image));
+		
+		queryButton.setOnMouseEntered(new EventHandler<MouseEvent> () {
+	        public void handle(MouseEvent t) {
+        		Image image = new Image(Main.class.getResourceAsStream("resources/images/magnifier-green.png"));
+        		queryButton.setGraphic(new ImageView(image));
+	        }
+	    });
+
+		queryButton.setOnMouseExited(new EventHandler<MouseEvent> () {
+	        public void handle(MouseEvent t) {
+	        	Image image = new Image(Main.class.getResourceAsStream("resources/images/magnifier-white.png"));
+	        	queryButton.setGraphic(new ImageView(image));
+	        }
+	    });
+		
+		//continueButton.setText("");
+		continueButton.setStyle("-fx-background-color: transparent;");
+		image = new Image(Main.class.getResourceAsStream("resources/images/locked.png"));
+		continueButton.setGraphic(new ImageView(image));
+		
+		continueButton.setOnMouseEntered(new EventHandler<MouseEvent> () {
+	        public void handle(MouseEvent t) {
+        		Image image = new Image(Main.class.getResourceAsStream("resources/images/unlocked.png"));
+        		continueButton.setGraphic(new ImageView(image));
+	        }
+	    });
+
+		continueButton.setOnMouseExited(new EventHandler<MouseEvent> () {
+	        public void handle(MouseEvent t) {
+	        	Image image = new Image(Main.class.getResourceAsStream("resources/images/locked.png"));
+	        	continueButton.setGraphic(new ImageView(image));
+	        }
+	    });
 	}
 
 	/**
@@ -156,6 +197,7 @@ public class ConnectController {
 				connectSQL(true);
 			}
 		} else if (event.getSource().equals(queryButton)) {
+			statusProgress.setVisible(true);
 			if (event.getCode() == KeyCode.ENTER) {
 				connectSQL(false);
 				collectDB();		
@@ -306,7 +348,8 @@ public class ConnectController {
 						            currentstage.close();
 								} catch (IOException e) {
 									statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
-									enableGUI(e.getMessage());
+									enableGUI();
+									DriverUtil.showError(e.getMessage());
 								}	
 							}
 						}
@@ -316,7 +359,8 @@ public class ConnectController {
 						@Override
 						public void run() {
 							statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
-							enableGUI(e.getMessage());
+							enableGUI();
+							DriverUtil.showError("Could not connect to database", e.getMessage());
 						}
 					});
 				}

@@ -8,12 +8,14 @@ import java.sql.SQLException;
 import javax.imageio.ImageIO;
 
 import org.eoprojects.sqlimageviewer.util.DriverConstants;
+import org.eoprojects.sqlimageviewer.util.DriverUtil;
 import org.eoprojects.sqlimageviewer.util.SQLUtil;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -27,6 +29,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
@@ -93,6 +96,106 @@ public class ImageViewerController {
 
 		sqlQueryArea.setText("SELECT imageName, image FROM images");
 		displayInfoImage(Main.class.getResourceAsStream("resources/images/imageIntro.png"));
+				
+		nextButton.setText("");
+		nextButton.setStyle("-fx-background-color: transparent;");
+		Image image = new Image(Main.class.getResourceAsStream("resources/images/arrow-right-white.png"));
+		nextButton.setGraphic(new ImageView(image));
+		
+		nextButton.setOnMouseEntered(new EventHandler<MouseEvent> () {
+	        public void handle(MouseEvent t) {
+	        	Image image = new Image(Main.class.getResourceAsStream("resources/images/arrow-right-black.png"));
+	    		nextButton.setGraphic(new ImageView(image));
+	        }
+	    });
+
+		nextButton.setOnMouseExited(new EventHandler<MouseEvent> () {
+	        public void handle(MouseEvent t) {
+	        	Image image = new Image(Main.class.getResourceAsStream("resources/images/arrow-right-white.png"));
+	    		nextButton.setGraphic(new ImageView(image));
+	        }
+	    });
+		
+		previousButton.setText("");
+		previousButton.setStyle("-fx-background-color: transparent;");
+		image = new Image(Main.class.getResourceAsStream("resources/images/arrow-left-white.png"));
+		previousButton.setGraphic(new ImageView(image));
+		
+		previousButton.setOnMouseEntered(new EventHandler<MouseEvent> () {
+	        public void handle(MouseEvent t) {
+	        	Image image = new Image(Main.class.getResourceAsStream("resources/images/arrow-left-black.png"));
+	        	previousButton.setGraphic(new ImageView(image));
+	        }
+	    });
+
+		previousButton.setOnMouseExited(new EventHandler<MouseEvent> () {
+	        public void handle(MouseEvent t) {
+	        	Image image = new Image(Main.class.getResourceAsStream("resources/images/arrow-left-white.png"));
+	        	previousButton.setGraphic(new ImageView(image));
+	        }
+	    });
+		
+		firstButton.setText("");
+		firstButton.setStyle("-fx-background-color: transparent;");
+		image = new Image(Main.class.getResourceAsStream("resources/images/arrow-first-white.png"));
+		firstButton.setGraphic(new ImageView(image));
+		
+		firstButton.setOnMouseEntered(new EventHandler<MouseEvent> () {
+	        public void handle(MouseEvent t) {
+	        	Image image = new Image(Main.class.getResourceAsStream("resources/images/arrow-first-black.png"));
+	        	firstButton.setGraphic(new ImageView(image));
+	        }
+	    });
+
+		firstButton.setOnMouseExited(new EventHandler<MouseEvent> () {
+	        public void handle(MouseEvent t) {
+	        	Image image = new Image(Main.class.getResourceAsStream("resources/images/arrow-first-white.png"));
+	        	firstButton.setGraphic(new ImageView(image));
+	        }
+	    });
+		
+		lastButton.setText("");
+		lastButton.setStyle("-fx-background-color: transparent;");
+		image = new Image(Main.class.getResourceAsStream("resources/images/arrow-last-white.png"));
+		lastButton.setGraphic(new ImageView(image));
+		
+		lastButton.setOnMouseEntered(new EventHandler<MouseEvent> () {
+	        public void handle(MouseEvent t) {
+	        	Image image = new Image(Main.class.getResourceAsStream("resources/images/arrow-last-black.png"));
+	        	lastButton.setGraphic(new ImageView(image));
+	        }
+	    });
+
+		lastButton.setOnMouseExited(new EventHandler<MouseEvent> () {
+	        public void handle(MouseEvent t) {
+	        	Image image = new Image(Main.class.getResourceAsStream("resources/images/arrow-last-white.png"));
+	        	lastButton.setGraphic(new ImageView(image));
+	        }
+	    });
+		
+		executeButton.setText("");
+		executeButton.setStyle("-fx-background-color: transparent;");
+		image = new Image(Main.class.getResourceAsStream("resources/images/magnifier-white.png"));
+		executeButton.setGraphic(new ImageView(image));
+		
+		executeButton.setOnMouseEntered(new EventHandler<MouseEvent> () {
+	        public void handle(MouseEvent t) {
+	        	if (sqlQueryArea.getText() == null || sqlQueryArea.getText().trim().equals("")) {
+	        		Image image = new Image(Main.class.getResourceAsStream("resources/images/magnifier-red.png"));
+	        		executeButton.setGraphic(new ImageView(image));
+	        	} else {
+	        		Image image = new Image(Main.class.getResourceAsStream("resources/images/magnifier-green.png"));
+	        		executeButton.setGraphic(new ImageView(image));
+	        	}
+	        }
+	    });
+
+		executeButton.setOnMouseExited(new EventHandler<MouseEvent> () {
+	        public void handle(MouseEvent t) {
+	        	Image image = new Image(Main.class.getResourceAsStream("resources/images/magnifier-white.png"));
+	        	executeButton.setGraphic(new ImageView(image));
+	        }
+	    });
 	}
 
 	/**
@@ -125,6 +228,7 @@ public class ImageViewerController {
 	}
 	
 	private void handlePreviousButton() {
+		statusProgress.setVisible(true);
 		if (SQLUtil.results != null) {
 			try {
 				if (SQLUtil.results.previous()) {
@@ -146,6 +250,7 @@ public class ImageViewerController {
 				displayInfoImage(Main.class.getResourceAsStream("resources/images/imageError.png"));
 			}
 		}
+		statusProgress.setVisible(false);
 	}
 	
 	private void handleNextButton() {
@@ -165,6 +270,7 @@ public class ImageViewerController {
 	}
 	
 	private void handleFirstButton() {
+		statusProgress.setVisible(true);
 		if (SQLUtil.results != null) {
 			try {
 				if (SQLUtil.results.first()) {
@@ -178,9 +284,11 @@ public class ImageViewerController {
 				displayInfoImage(Main.class.getResourceAsStream("resources/images/imageError.png"));
 			}
 		}
+		statusProgress.setVisible(false);
 	}
 	
 	private void handleLastButton() {
+		statusProgress.setVisible(true);
 		if (SQLUtil.results != null) {
 			try {
 				if (SQLUtil.results.last()) {
@@ -194,6 +302,7 @@ public class ImageViewerController {
 				displayInfoImage(Main.class.getResourceAsStream("resources/images/imageError.png"));
 			}
 		}
+		statusProgress.setVisible(false);
 	}
 	
 	private void handleSaveAsMenu() {
@@ -217,7 +326,8 @@ public class ImageViewerController {
 				statusLabel.setText("Saved");
 			} catch (IOException e) {
 				statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
-				statusLabel.setText(e.getMessage());
+				statusLabel.setText("");
+				DriverUtil.showError(e.getMessage());
 			}
 		}
 	}
@@ -238,7 +348,8 @@ public class ImageViewerController {
 			stage.show();
 		} catch (IOException e) {
 			statusLabel.setTextFill(Color.web(DriverConstants.COLOR_FAIL));
-			statusLabel.setText(e.getMessage().trim());
+			statusLabel.setText("");
+			DriverUtil.showError(e.getMessage());
 		}
 	}
 	

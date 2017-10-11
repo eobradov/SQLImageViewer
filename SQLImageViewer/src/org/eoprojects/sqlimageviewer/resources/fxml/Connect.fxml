@@ -24,53 +24,53 @@
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="245.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="32.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="32.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="32.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="32.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="-Infinity" minHeight="5.0" prefHeight="5.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="64.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="32.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <opaqueInsets>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </opaqueInsets>
                <children>
-                  <ComboBox fx:id="driverBox" onAction="#handleAction" prefWidth="235.0" GridPane.columnIndex="1" />
-                  <Label focusTraversable="false" text="Driver:" />
-                  <Label focusTraversable="false" layoutX="10.0" layoutY="97.0" text="Server:" GridPane.rowIndex="1" />
-                  <Label focusTraversable="false" text="Username:" GridPane.rowIndex="2" />
-                  <Label focusTraversable="false" text="Password:" GridPane.rowIndex="3" />
-                  <Label focusTraversable="false" text="Database:" GridPane.rowIndex="4" />
-                  <TextField fx:id="serverField" layoutX="100.0" layoutY="93.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="235.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField fx:id="usernameField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="235.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <PasswordField fx:id="passwordField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="235.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <ComboBox fx:id="driverBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleAction" prefHeight="32.0" prefWidth="235.0" GridPane.columnIndex="1" />
+                  <Label focusTraversable="false" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="32.0" text="Driver:" />
+                  <Label focusTraversable="false" layoutX="10.0" layoutY="97.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="32.0" text="Server:" GridPane.rowIndex="1" />
+                  <Label focusTraversable="false" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="32.0" text="Username:" GridPane.rowIndex="2" />
+                  <Label focusTraversable="false" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="32.0" text="Password:" GridPane.rowIndex="3" />
+                  <Label focusTraversable="false" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="32.0" text="Database:" GridPane.rowIndex="4" />
+                  <TextField fx:id="serverField" layoutX="100.0" layoutY="93.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="235.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="usernameField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="235.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <PasswordField fx:id="passwordField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="235.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="235.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="205.0" minWidth="10.0" prefWidth="184.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="116.0" minWidth="10.0" prefWidth="51.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="32.0" />
                     </columnConstraints>
                      <children>
-                        <Button fx:id="queryButton" mnemonicParsing="false" onAction="#handleAction" onKeyReleased="#handleKeyEvent" text="Query" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                        <Button fx:id="queryButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleAction" onKeyReleased="#handleKeyEvent" prefHeight="32.0" prefWidth="32.0" text="Query" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
                            <GridPane.margin>
                               <Insets left="1.0" />
                            </GridPane.margin>
                         </Button>
-                        <ComboBox fx:id="databaseBox" prefWidth="183.0" />
+                        <ComboBox fx:id="databaseBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="200.0" />
                      </children>
                      <rowConstraints>
                         <RowConstraints />
                      </rowConstraints>
                   </GridPane>
-                  <Button fx:id="continueButton" mnemonicParsing="false" onAction="#handleAction" onKeyReleased="#handleKeyEvent" text="Continue" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <Button fx:id="continueButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleAction" onKeyReleased="#handleKeyEvent" prefHeight="64.0" prefWidth="64.0" text="Continue" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                   <Line endX="135.0" startX="-100.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
-                  <Label fx:id="statusLabel" focusTraversable="false" text="Status" textFill="#da1010" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="TOP">
+                  <Label fx:id="statusLabel" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" text="Status" textFill="#da1010" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="TOP">
                      <font>
                         <Font name="System Italic" size="10.0" />
                      </font>
                   </Label>
-                  <ProgressIndicator fx:id="statusProgress" focusTraversable="false" GridPane.rowIndex="6" />
+                  <ProgressIndicator fx:id="statusProgress" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="32.0" GridPane.halignment="LEFT" GridPane.rowIndex="7" />
                </children>
             </GridPane>
          </center>
@@ -79,22 +79,19 @@
    <top>
       <GridPane hgap="5.0" vgap="5.0" BorderPane.alignment="CENTER">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="187.0" minWidth="2.0" prefWidth="54.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="32.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="383.0" minWidth="10.0" prefWidth="331.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="32.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label focusTraversable="false" text="Connecting to server:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
+            <Label focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" text="Connecting to server:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="logoLabel" focusTraversable="false" text="Logo" GridPane.halignment="LEFT" GridPane.valignment="CENTER" />
+            <Label fx:id="logoLabel" focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="32.0" text="Logo" GridPane.halignment="LEFT" GridPane.valignment="CENTER" />
          </children>
          <padding>
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />

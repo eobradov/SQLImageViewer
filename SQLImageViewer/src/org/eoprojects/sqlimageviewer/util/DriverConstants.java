@@ -1,8 +1,7 @@
 package org.eoprojects.sqlimageviewer.util;
 
 /**
- * DriverConstants - Contains attributes and methods used between Controller
- * classes
+ * Contains attributes and methods used between other classes
  * 
  * @author Edi Obradovic
  *
