@@ -93,82 +93,83 @@ public class ImageViewerController {
 		statusLabel.setTextFill(Color.web(DriverConstants.COLOR_NEUTRAL));
 		statusLabel.setText("");
 		statusProgress.setVisible(false);
-
-		sqlQueryArea.setText("SELECT imageName, image FROM images");
+	
+		sqlQueryArea.clear();
+		sqlQueryArea.setPromptText("Enter your SQL Query ...");
 		displayInfoImage(Main.class.getResourceAsStream("resources/images/imageIntro.png"));
 				
 		nextButton.setText("");
 		nextButton.setStyle("-fx-background-color: transparent;");
-		Image image = new Image(Main.class.getResourceAsStream("resources/images/arrow-right-white.png"));
+		Image image = new Image(Main.class.getResourceAsStream("resources/images/arrow-next.png"));
 		nextButton.setGraphic(new ImageView(image));
 		
 		nextButton.setOnMouseEntered(new EventHandler<MouseEvent> () {
 	        public void handle(MouseEvent t) {
-	        	Image image = new Image(Main.class.getResourceAsStream("resources/images/arrow-right-black.png"));
+	        	Image image = new Image(Main.class.getResourceAsStream("resources/images/arrow-next-focus.png"));
 	    		nextButton.setGraphic(new ImageView(image));
 	        }
 	    });
 
 		nextButton.setOnMouseExited(new EventHandler<MouseEvent> () {
 	        public void handle(MouseEvent t) {
-	        	Image image = new Image(Main.class.getResourceAsStream("resources/images/arrow-right-white.png"));
+	        	Image image = new Image(Main.class.getResourceAsStream("resources/images/arrow-next.png"));
 	    		nextButton.setGraphic(new ImageView(image));
 	        }
 	    });
 		
 		previousButton.setText("");
 		previousButton.setStyle("-fx-background-color: transparent;");
-		image = new Image(Main.class.getResourceAsStream("resources/images/arrow-left-white.png"));
+		image = new Image(Main.class.getResourceAsStream("resources/images/arrow-previous.png"));
 		previousButton.setGraphic(new ImageView(image));
 		
 		previousButton.setOnMouseEntered(new EventHandler<MouseEvent> () {
 	        public void handle(MouseEvent t) {
-	        	Image image = new Image(Main.class.getResourceAsStream("resources/images/arrow-left-black.png"));
+	        	Image image = new Image(Main.class.getResourceAsStream("resources/images/arrow-previous-focus.png"));
 	        	previousButton.setGraphic(new ImageView(image));
 	        }
 	    });
 
 		previousButton.setOnMouseExited(new EventHandler<MouseEvent> () {
 	        public void handle(MouseEvent t) {
-	        	Image image = new Image(Main.class.getResourceAsStream("resources/images/arrow-left-white.png"));
+	        	Image image = new Image(Main.class.getResourceAsStream("resources/images/arrow-previous.png"));
 	        	previousButton.setGraphic(new ImageView(image));
 	        }
 	    });
 		
 		firstButton.setText("");
 		firstButton.setStyle("-fx-background-color: transparent;");
-		image = new Image(Main.class.getResourceAsStream("resources/images/arrow-first-white.png"));
+		image = new Image(Main.class.getResourceAsStream("resources/images/arrow-first.png"));
 		firstButton.setGraphic(new ImageView(image));
 		
 		firstButton.setOnMouseEntered(new EventHandler<MouseEvent> () {
 	        public void handle(MouseEvent t) {
-	        	Image image = new Image(Main.class.getResourceAsStream("resources/images/arrow-first-black.png"));
+	        	Image image = new Image(Main.class.getResourceAsStream("resources/images/arrow-first-focus.png"));
 	        	firstButton.setGraphic(new ImageView(image));
 	        }
 	    });
 
 		firstButton.setOnMouseExited(new EventHandler<MouseEvent> () {
 	        public void handle(MouseEvent t) {
-	        	Image image = new Image(Main.class.getResourceAsStream("resources/images/arrow-first-white.png"));
+	        	Image image = new Image(Main.class.getResourceAsStream("resources/images/arrow-first.png"));
 	        	firstButton.setGraphic(new ImageView(image));
 	        }
 	    });
 		
 		lastButton.setText("");
 		lastButton.setStyle("-fx-background-color: transparent;");
-		image = new Image(Main.class.getResourceAsStream("resources/images/arrow-last-white.png"));
+		image = new Image(Main.class.getResourceAsStream("resources/images/arrow-last.png"));
 		lastButton.setGraphic(new ImageView(image));
 		
 		lastButton.setOnMouseEntered(new EventHandler<MouseEvent> () {
 	        public void handle(MouseEvent t) {
-	        	Image image = new Image(Main.class.getResourceAsStream("resources/images/arrow-last-black.png"));
+	        	Image image = new Image(Main.class.getResourceAsStream("resources/images/arrow-last-focus.png"));
 	        	lastButton.setGraphic(new ImageView(image));
 	        }
 	    });
 
 		lastButton.setOnMouseExited(new EventHandler<MouseEvent> () {
 	        public void handle(MouseEvent t) {
-	        	Image image = new Image(Main.class.getResourceAsStream("resources/images/arrow-last-white.png"));
+	        	Image image = new Image(Main.class.getResourceAsStream("resources/images/arrow-last.png"));
 	        	lastButton.setGraphic(new ImageView(image));
 	        }
 	    });

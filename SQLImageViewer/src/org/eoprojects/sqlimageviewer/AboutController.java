@@ -74,7 +74,6 @@ public class AboutController {
 			}
 		}
 
-		licenseText.setEditable(false);
 		licenseText.selectHome();
 		licenseText.deselect();
 
